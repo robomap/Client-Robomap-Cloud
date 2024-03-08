@@ -46,8 +46,9 @@ public class LoginView extends JFrame {
     private JButton Registrar;
     private ImageIcon icon;
 	final Taskbar taskbar = Taskbar.getTaskbar();
+
 	@SuppressWarnings("serial")
-	public LoginView() {			
+	public LoginView() {
 		
 		jpRegister = new JPanel (new GridLayout(2,1));
 		jpRegister.setBackground(new Color(60,60,60));
@@ -64,21 +65,21 @@ public class LoginView extends JFrame {
 	}
 		
 	private void panelUP(){
-		icon = new ImageIcon("/Users/eduard5524/Desktop/integration_robomap_cloud/integration_robomap_cloud/img/logo_white.png");
+		icon = new ImageIcon("/Users/eduard5524/Library/CloudStorage/OneDrive-Personal/Business/Robomap/Development/Client-Robomap-Cloud/assets/img/logo_white.png");
 		Image iconImage = icon.getImage();
 		this.setIconImage(icon.getImage());
         final Taskbar taskbar = Taskbar.getTaskbar();
-		Image originalImage = new ImageIcon("/Users/eduard5524/Desktop/integration_robomap_cloud/integration_robomap_cloud/img/logo.png").getImage();
+		Image originalImage = new ImageIcon("/Users/eduard5524/Library/CloudStorage/OneDrive-Personal/Business/Robomap/Development/Client-Robomap-Cloud/assets/img/logo.png").getImage();
 		Image resizedImage = originalImage.getScaledInstance((int)(600.0),(int)(600.0), Image.SCALE_SMOOTH);
 		
         try {
-            //set icon for mac os (and other systems which do support this method)
             taskbar.setIconImage(resizedImage);
         } catch (final UnsupportedOperationException e) {
             System.out.println("The os does not support: 'taskbar.setIconImage'");
         } catch (final SecurityException e) {
             System.out.println("There was a security exception for: 'taskbar.setIconImage'");
         }
+		
 		iconImage = iconImage.getScaledInstance((int)(60.0),(int)(60.0), Image.SCALE_SMOOTH);
 		jlIcon = new JLabel(new ImageIcon (iconImage));
 		jpRegister.add(jlIcon);
@@ -206,6 +207,14 @@ public class LoginView extends JFrame {
 				System.out.println("Another instance is already running.");
 				return;
 			}
+	
+			Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+				// Code to be executed when the application is shutting down
+				if (lockFile.exists()) {
+					lockFile.delete();
+					System.out.println("Lock file deleted.");
+				}
+			}));
 	
 			SwingUtilities.invokeLater(() -> new LoginView());
 		} catch (IOException e) {
