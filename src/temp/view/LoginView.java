@@ -24,8 +24,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
-import temp.controller.LoginController;
-
 public class LoginView extends JFrame {
     private JPanel jpRegister;
     private JPanel jpContent;
@@ -176,12 +174,12 @@ public class LoginView extends JFrame {
 		jpPassword.add(jpfPasword);
 	}
 	
-	public void registreControladorRegistra(LoginController loginController){
+	public void registreControladorRegistra(AuthenticationController loginController){
 		Registrar.addActionListener(loginController);
 		Registrar.setActionCommand("REGISTRAR");
 	}
 	
-	public void registreControladorLogin(LoginController loginController){
+	public void registreControladorLogin(AuthenticationController loginController){
 		buttonLogin.addActionListener(loginController);
 		buttonLogin.setActionCommand("LOGIN");
 	}
@@ -207,7 +205,7 @@ public class LoginView extends JFrame {
 				return;
 			}
 	
-			SwingUtilities.invokeLater(() -> new LoginView());
+			SwingUtilities.invokeLater(() -> new AuthenticationView());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

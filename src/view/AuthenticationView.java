@@ -24,9 +24,11 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
-import temp.controller.LoginController;
+import config.AppConfig;
+import controller.AuthenticationController;
 
-public class LoginView extends JFrame {
+
+public class AuthenticationView extends JFrame {    
     private JPanel jpRegister;
     private JPanel jpContent;
     private JPanel jpPassword;
@@ -45,11 +47,13 @@ public class LoginView extends JFrame {
     private JButton buttonLogin;
     private JButton Registrar;
     private ImageIcon icon;
+	private AuthenticationController authenticationController = new AuthenticationController(this);
 	final Taskbar taskbar = Taskbar.getTaskbar();
 
 	@SuppressWarnings("serial")
-	public LoginView() {
-		
+	public AuthenticationView() {
+		//AuthenticationController authenticationController = new AuthenticationController(this);
+
 		jpRegister = new JPanel (new GridLayout(2,1));
 		jpRegister.setBackground(new Color(60,60,60));
 		panelUP();
@@ -93,6 +97,21 @@ public class LoginView extends JFrame {
 		jpButtonLogin.setBackground(new Color(60,60,60));;
 		jpButtonLogin.add(buttonLogin);
 		jpButtonLogin.add(new JLabel());
+		
+		this.buttonLogin = buttonLogin;
+		buttonLogin.setActionCommand("LOGIN");
+
+		if (buttonLogin != null) {
+			buttonLogin.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if ("LOGIN".equals(e.getActionCommand())) {
+						System.out.println("Login button pressed.");
+						authenticationController.actionPerformed(e); 
+					}
+				}
+			});
+		}
 	}
 	
 	private void panelDown(){
@@ -123,11 +142,10 @@ public class LoginView extends JFrame {
 		Registrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                openWebPage("https://cloud.robomap.ai/auth/register");
+                openWebPage(AppConfig.getRegisterUrl());
             }
         });
 
-		
 		jpButtons.add(jpRegistered);
 		jpButtons.add(new JLabel());
 		jpButtons.add(jlLoginInformation);
@@ -177,12 +195,14 @@ public class LoginView extends JFrame {
 		jpPassword.add(jpfPasword);
 	}
 	
-	public void registreControladorRegistra(LoginController loginController){
+	public void registreControladorRegistra(AuthenticationController loginController){
 		Registrar.addActionListener(loginController);
 		Registrar.setActionCommand("REGISTRAR");
 	}
 	
-	public void registreControladorLogin(LoginController loginController){
+	public void registreControladorLogin(AuthenticationController loginController){
+		loginButton();
+
 		buttonLogin.addActionListener(loginController);
 		buttonLogin.setActionCommand("LOGIN");
 	}
@@ -209,14 +229,13 @@ public class LoginView extends JFrame {
 			}
 	
 			Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-				// Code to be executed when the application is shutting down
 				if (lockFile.exists()) {
 					lockFile.delete();
 					System.out.println("Lock file deleted.");
 				}
 			}));
 	
-			SwingUtilities.invokeLater(() -> new LoginView());
+			SwingUtilities.invokeLater(() -> new AuthenticationView());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

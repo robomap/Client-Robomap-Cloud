@@ -11,10 +11,7 @@ Welcome to the VS Code Java world. Here is a guideline to help you get started t
 - Select the project location.
 - Input the name of the project.
 
-
-## Build
-
-## 
+## Build 
 
 ## Folder Structure
 The workspace contains two folders by default, where:
@@ -28,12 +25,15 @@ Meanwhile, the compiled output files will be generated in the `bin` folder by de
 ## Dependency Management
 The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
 
-# Build
+## Build
 `docker build -t your-app-image .`
 
-# Run
+## Run
 `docker run -p 8080:8080 --name your-app-container your-app-image`
 
-# Push into Docker registry
+## Push into Docker registry
 `docker tag your-app-image username/your-app:latest`
 `docker push username/your-app:latest`
+
+## API 
+Check the document [API](documentation/API.md) to see how the **Client Robomap Cloud API** works.

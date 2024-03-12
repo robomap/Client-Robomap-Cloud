@@ -2,13 +2,13 @@ package temp.model;
 
 import javax.swing.SwingUtilities;
 
-import temp.controller.LoginController;
-import view.LoginView;
+import controller.LoginController;
+import view.AuthenticationView;
 
 public class Principal {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		LoginView loginView = new LoginView();		
+		AuthenticationView loginView = new AuthenticationView();		
 		SwingUtilities.invokeLater(new Runnable() {	
 			public void run() {		
 				try{
