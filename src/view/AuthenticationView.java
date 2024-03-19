@@ -12,7 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -24,7 +23,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 
 import config.AppConfig;
 import controller.AuthenticationController;
@@ -296,27 +294,5 @@ public class AuthenticationView extends JFrame implements KeyListener {
         devicesView.setVisible(true);
 
         dispose();
-    }
-
-	public static void main(String[] args) {
-		
-		try {
-			File lockFile = new File("app.lock");
-			if (!lockFile.createNewFile()) {
-				System.out.println("Another instance is already running.");
-				return;
-			}
-	
-			Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-				if (lockFile.exists()) {
-					lockFile.delete();
-					System.out.println("Lock file deleted.");
-				}
-			}));
-	
-			SwingUtilities.invokeLater(() -> new AuthenticationView());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
     }
 }
