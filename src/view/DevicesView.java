@@ -10,8 +10,6 @@ import java.awt.Image;
 import java.awt.Taskbar;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -19,6 +17,7 @@ import java.net.URISyntaxException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -30,7 +29,7 @@ import config.AppConfig;
 import controller.AuthenticationController;
 import service.ApiClient;
 
-public class AuthenticationView extends JFrame implements KeyListener {    
+public class DevicesView extends JFrame {    
     private JPanel jpRegister;
     private JPanel jpContent;
     private JPanel jpPassword;
@@ -49,68 +48,48 @@ public class AuthenticationView extends JFrame implements KeyListener {
     private JButton buttonLogin;
     private JButton Registrar;
     private ImageIcon icon;
-	//private AuthenticationController authenticationController = new AuthenticationController(this);
+	private AuthenticationController authenticationController = new AuthenticationController(this);
 	final Taskbar taskbar = Taskbar.getTaskbar();
 
-	@SuppressWarnings("serial")
-	public AuthenticationView() {
-		//AuthenticationController authenticationController = new AuthenticationController(this);
+   
+    private JLabel jlTitle;
+    private JLabel jlDeviceName;
+    private JLabel jlDeviceProtocol;
+    private JLabel jlDeviceDescription;
+    private JLabel jlDeviceLatitude;
+    private JLabel jlDeviceLongitude;
+    private JTextField jtfDeviceName;
+	private JComboBox<String> jcbDeviceProtocol;
+    private JTextField jtfDeviceDescription;
+    private JTextField jtfDeviceLatitude;
+    private JTextField jtfDeviceLongitude;
 
-		jpRegister = new JPanel (new GridLayout(2,1));
-		jpRegister.setBackground(new Color(0,0,0));
-		panelUP();
-		panelDown();
-		this.getContentPane().add(jpRegister);
-		this.setSize(400,600);
-		this.setLocationRelativeTo(null);
-		this.setResizable(false);
-		this.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
-		this.setTitle("Robomap Cloud Client");
-		this.setIconImage(icon.getImage());
-		this.setVisible(true);
-		this.addKeyListener(this); 
-		this.setFocusable(true); // Ensure JFrame is focusable
-        this.requestFocusInWindow();
-	}
+  
 
-	@Override
-    public void keyPressed(KeyEvent e) {
-		System.out.println("Key code: " + e.getKeyCode());
-		System.out.println(KeyEvent.VK_ENTER);
-
-        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            // Perform login action when Enter key is pressed
-            String email = getUsername();
-            String password = String.valueOf(jpfPasword.getPassword());
-
-            ApiClient apiClient = new ApiClient();
-
-            // Call the login method
-            try {
-                String response = apiClient.login(email, password);
-                System.out.println("Login Response: " + response);
-
-                if (response.contains("success")) {
-                    // Load device selector view
-                    loadDevicesView();
-                    System.out.println("Login button pressed.");
-                }
-            } catch (IOException io_exception) {
-                io_exception.printStackTrace();
-            }
-        }
+    @SuppressWarnings("serial")
+    public DevicesView() {
+        jpRegister = new JPanel(new GridLayout(6, 1));
+        jpRegister.setBackground(new Color(235, 235, 235));
+        addComponents();
+        this.getContentPane().add(jpRegister);
+        this.setSize(900, 600);
+        this.setLocationRelativeTo(null);
+        this.setResizable(true);
+        this.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+        this.setTitle("Robomap Cloud Client - Configuration");
+        this.setVisible(true);
+		setLogoTaskbar();
     }
 
-    @Override
-    public void keyReleased(KeyEvent e) {
-        // Not needed for this implementation
+    private void addComponents() {
+        addLogoAndTitle();
+        addDeviceName();
+        addDeviceProtocol();
+        addDeviceDescription();
+        addDeviceLatitudeAndLongitude();
+        addButtons();
     }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-        // Not needed for this implementation
-    }
-
+		
 	private void panelUP(){
 		icon = new ImageIcon("/Users/eduard5524/Library/CloudStorage/OneDrive-Personal/Business/Robomap/Development/Client-Robomap-Cloud/assets/img/logo_white.png");
 		Image iconImage = icon.getImage();
@@ -127,7 +106,7 @@ public class AuthenticationView extends JFrame implements KeyListener {
             System.out.println("There was a security exception for: 'taskbar.setIconImage'");
         }
 		
-		iconImage = iconImage.getScaledInstance((int)(60.0),(int)(60.0), Image.SCALE_SMOOTH);
+		iconImage = iconImage.getScaledInstance((int)(20.0),(int)(20.0), Image.SCALE_SMOOTH);
 		jlIcon = new JLabel(new ImageIcon (iconImage));
 		jpRegister.add(jlIcon);
 	}
@@ -137,11 +116,7 @@ public class AuthenticationView extends JFrame implements KeyListener {
 		jpButtonLogin.add(new JLabel());
 		buttonLogin = new JButton("Login");
 		buttonLogin.setFont(new Font("Century Gothic",0,12));
-		buttonLogin.setBackground(new Color(0, 0, 0));
-		buttonLogin.setFocusPainted(false); // Disable focus painting
-		buttonLogin.setBorderPainted(true); // Disable border painting
-		buttonLogin.setOpaque(true); // Make the button opaque
-		jpButtonLogin.setBackground(new Color(0,0,0));
+		jpButtonLogin.setBackground(new Color(235,235,235));;
 		jpButtonLogin.add(buttonLogin);
 		jpButtonLogin.add(new JLabel());
 		
@@ -163,25 +138,17 @@ public class AuthenticationView extends JFrame implements KeyListener {
 							String response = apiClient.login(email, password);
 							System.out.println("Login Response: " + response);
 
-							if (response.contains("success")) {
-                                // Load device selector view
-                                loadDevicesView();
-								System.out.println("Login button pressed.");
-                            }
+
 						} catch (IOException io_exception) {
 							io_exception.printStackTrace();
 						}
 
-						
+						System.out.println("Login button pressed.");
 						//authenticationController.actionPerformed(e); 
 						
 					}
 				}
 			});
-			// Set the login button as the default button
-			
-			this.getRootPane().setDefaultButton(buttonLogin);
-			
 		}
 	}
 	
@@ -192,7 +159,7 @@ public class AuthenticationView extends JFrame implements KeyListener {
 		loginButton();
 		jpContent.add(jpMail);
 		jpContent.add(new JLabel());
-		jpContent.setBackground(new Color(0,0,0));
+		jpContent.setBackground(new Color(235,235,235));
 		jpContent.add(jpPassword);
 		jpContent.add(new JLabel());
 		jpContent.add(jpButtonLogin);
@@ -204,12 +171,12 @@ public class AuthenticationView extends JFrame implements KeyListener {
 		jpRegistered = new JPanel (new FlowLayout());	
 		Registrar = new JButton("Register");
 		Registrar.setFont(new Font("Century Gothic",0,12));
-		textRegistrat = new JLabel("You don't have an account? ");
+		textRegistrat = new JLabel("Configurate the devices you want to connect.");
 		textRegistrat.setForeground(new Color(200,200,200));
 		textRegistrat.setFont(new Font("Century Gothic",0,12));
 		jpRegistered.add(textRegistrat);
-		jpRegistered.add(Registrar);
-		jpRegistered.setBackground(new Color(0,0,0));
+		
+		jpRegistered.setBackground(new Color(235,235,235));
 		Registrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -220,9 +187,9 @@ public class AuthenticationView extends JFrame implements KeyListener {
 		jpButtons.add(jpRegistered);
 		jpButtons.add(new JLabel());
 		jpButtons.add(jlLoginInformation);
-		jpButtons.setBackground(new Color(0,0,0));
+		jpButtons.setBackground(new Color(235,235,235));
 		jpInferior.add(jpButtons);
-		jpInferior.setBackground(new Color(0,0,0));
+		jpInferior.setBackground(new Color(235,235,235));
 		jpRegister.add(jpInferior);
 	}
 
@@ -241,7 +208,7 @@ public class AuthenticationView extends JFrame implements KeyListener {
 	
 	private void mailInformation(){
 		jpMail = new JPanel ();
-		jlNameMail = new JLabel ("Username");
+		jlNameMail = new JLabel ("Device name");
 		jlNameMail.setForeground(new Color(200,200,200));
 		jlNameMail.setFont(new Font("Century Gothic",0,12));
 		jpMail.add(jlNameMail);
@@ -249,17 +216,17 @@ public class AuthenticationView extends JFrame implements KeyListener {
 		jtfMail.setFont(new Font("Century Gothic",0,11));
 		jtfMail.setPreferredSize(new Dimension((int)(220.0),(int)(25.0)));
 		
-		jpMail.setBackground(new Color(0,0,0));
+		jpMail.setBackground(new Color(235,235,235));
 		jpMail.add(jtfMail);
 	}
 	
 	private void passwordInformation(){
 		jpPassword = new JPanel();
-		nomcontrasenya = new JLabel("Password");
+		nomcontrasenya = new JLabel("Protocol");
 		nomcontrasenya.setForeground(new Color(200,200,200));
 		nomcontrasenya.setFont(new Font("Century Gothic",0,12));
 		jpPassword.add(nomcontrasenya);
-		jpPassword.setBackground(new Color(0,0,0));
+		jpPassword.setBackground(new Color(235,235,235));
 		jpfPasword = new JPasswordField();
 		jpfPasword.setFont(new Font("Century Gothic",0,11));
 		jpfPasword.setPreferredSize(new Dimension((int)(220.0),(int)(25.0)));
@@ -286,20 +253,110 @@ public class AuthenticationView extends JFrame implements KeyListener {
 	}
 	
 	public void setInformacioLogin(String InfoLogin){
-		jlLoginInformation.setForeground(new Color(0,0,0));
+		jlLoginInformation.setForeground(new Color(200,200,200));
 		jlLoginInformation.setFont(new Font("Century Githic",0,12));
 		jlLoginInformation.setText(InfoLogin);
 	}
-	
-	private void loadDevicesView() {
-        DevicesView devicesView = new DevicesView();
-        devicesView.setVisible(true);
 
-        dispose();
+
+	private void addLogoAndTitle() {
+		icon = new ImageIcon("/Users/eduard5524/Library/CloudStorage/OneDrive-Personal/Business/Robomap/Development/Client-Robomap-Cloud/assets/img/logo_black.png");
+		Image iconImage = icon.getImage();
+		iconImage = iconImage.getScaledInstance((int)(40.0),(int)(40.0), Image.SCALE_SMOOTH);
+		jlIcon = new JLabel(new ImageIcon(iconImage));
+		jpRegister.add(jlIcon);
+	
+		jlTitle = new JLabel("Configuration of your first device");
+		jlTitle.setFont(new Font("Century Gothic", Font.BOLD, 14));
+		jpRegister.add(jlTitle);
+	}
+	
+
+    private void addDeviceName() {
+        jpContent = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        jlDeviceName = new JLabel("Device name");
+        jlDeviceName.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+        jtfDeviceName = new JTextField();
+        jtfDeviceName.setPreferredSize(new Dimension(220, 25));
+
+        jpContent.add(jlDeviceName);
+        jpContent.add(jtfDeviceName);
+
+        jpRegister.add(jpContent);
     }
 
-	public static void main(String[] args) {
+    private void addDeviceProtocol() {
+        jpContent = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        jlDeviceProtocol = new JLabel("Device protocol");
+        jlDeviceProtocol.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+        jcbDeviceProtocol = new JComboBox<>(new String[]{"Protocol 1", "Protocol 2", "Protocol 3"});
+        jcbDeviceProtocol.setPreferredSize(new Dimension(220, 25));
+
+        jpContent.add(jlDeviceProtocol);
+        jpContent.add(jcbDeviceProtocol);
+
+        jpRegister.add(jpContent);
+    }
+
+    private void addDeviceDescription() {
+        jpContent = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        jlDeviceDescription = new JLabel("Device description");
+        jlDeviceDescription.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+        jtfDeviceDescription = new JTextField();
+        jtfDeviceDescription.setPreferredSize(new Dimension(220, 25));
+
+        jpContent.add(jlDeviceDescription);
+        jpContent.add(jtfDeviceDescription);
+
+        jpRegister.add(jpContent);
+    }
+
+    private void addDeviceLatitudeAndLongitude() {
+        jpContent = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        jlDeviceLatitude = new JLabel("Device latitude");
+        jlDeviceLatitude.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+        jtfDeviceLatitude = new JTextField();
+        jtfDeviceLatitude.setPreferredSize(new Dimension(100, 25));
+        jlDeviceLongitude = new JLabel("Device longitude");
+        jlDeviceLongitude.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+        jtfDeviceLongitude = new JTextField();
+        jtfDeviceLongitude.setPreferredSize(new Dimension(100, 25));
+
+        jpContent.add(jlDeviceLatitude);
+        jpContent.add(jtfDeviceLatitude);
+        jpContent.add(jlDeviceLongitude);
+        jpContent.add(jtfDeviceLongitude);
+
+        jpRegister.add(jpContent);
+    }
+
+    private void addButtons() {
+        jpButtons = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        Registrar = new JButton("Skip");
+        Registrar.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+        jpButtons.add(Registrar);
+        buttonLogin = new JButton("Add");
+        buttonLogin.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+        jpButtons.add(buttonLogin);
+
+        jpRegister.add(jpButtons);
+    }
+	
+	public void setLogoTaskbar() {
+		final Taskbar taskbar = Taskbar.getTaskbar();
+		Image originalImage = new ImageIcon("/Users/eduard5524/Library/CloudStorage/OneDrive-Personal/Business/Robomap/Development/Client-Robomap-Cloud/assets/img/logo.png").getImage();
+		Image resizedImage = originalImage.getScaledInstance((int)(600.0),(int)(600.0), Image.SCALE_SMOOTH);
 		
+        try {
+            taskbar.setIconImage(resizedImage);
+        } catch (final UnsupportedOperationException e) {
+            System.out.println("The os does not support: 'taskbar.setIconImage'");
+        } catch (final SecurityException e) {
+            System.out.println("There was a security exception for: 'taskbar.setIconImage'");
+        }
+	}
+
+	public static void main(String[] args) {
 		try {
 			File lockFile = new File("app.lock");
 			if (!lockFile.createNewFile()) {
@@ -314,7 +371,7 @@ public class AuthenticationView extends JFrame implements KeyListener {
 				}
 			}));
 	
-			SwingUtilities.invokeLater(() -> new AuthenticationView());
+			SwingUtilities.invokeLater(() -> new DevicesView());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

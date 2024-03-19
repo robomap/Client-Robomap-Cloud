@@ -24,6 +24,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+import controller.AuthenticationController;
+
 public class LoginView extends JFrame {
     private JPanel jpRegister;
     private JPanel jpContent;
@@ -205,7 +207,7 @@ public class LoginView extends JFrame {
 				return;
 			}
 	
-			SwingUtilities.invokeLater(() -> new AuthenticationView());
+			SwingUtilities.invokeLater(() -> new DevicesView());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

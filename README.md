@@ -37,3 +37,11 @@ The `JAVA PROJECTS` view allows you to manage your dependencies. More details ca
 
 ## API 
 Check the document [API](documentation/API.md) to see how the **Client Robomap Cloud API** works.
+
+## Create .exe file
+1. Create JAR file `jar cfm Client-Robomap-Cloud.jar manifest.txt ./view/AuthenticationView.java`.
+2. Test your JAR file `java -jar YourJarFile.jar`.
+3. Convert JAR to EXE. To convert your JAR file to an executable (.exe), you can use a third-party tool like Launch4j, which is a cross-platform tool for wrapping Java applications distributed as JAR files into lightweight Windows native executables.
+
+## Resources
+- Universaljavaapplicationstab [click here](https://github.com/tofi86/universalJavaApplicationStub).

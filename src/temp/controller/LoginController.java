@@ -4,18 +4,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import view.AuthenticationView;
+import view.DevicesView;
 import view.MainView;
 import view.RegisterView;
 
 public class LoginController implements ActionListener {
-	private AuthenticationView loginView;
+	private DevicesView loginView;
 	private MainView mainView;
 	private ServerComunication sComunication;
 	private RegisterView registerView;
 	RegisterController registerController;
 
-	public LoginController (AuthenticationView loginView){
+	public LoginController (DevicesView loginView){
 		mainView = new MainView();	
 		this.loginView = loginView;
 		//Part comunicacio inicialitzem socket de comunicacio
