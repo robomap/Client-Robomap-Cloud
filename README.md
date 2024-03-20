@@ -12,6 +12,8 @@ Welcome to the VS Code Java world. Here is a guideline to help you get started t
 - Input the name of the project.
 
 ## Build 
+- Environtment: VS Code.
+- Plugins required: `Estension Pack for Java`. Plugin ID: `vscjava.vscode-java-pack`.
 
 ## Folder Structure
 The workspace contains two folders by default, where:

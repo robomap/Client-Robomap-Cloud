@@ -18,7 +18,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 
 public class DevicesView extends JFrame {    
     private JPanel jpRegister;
@@ -68,10 +67,8 @@ public class DevicesView extends JFrame {
 
 	private void addDeviceInputs() {
 		JPanel jpInputs = new JPanel(new BorderLayout());
-	
 		JPanel jpContent = new JPanel();
 		jpContent.setLayout(new BoxLayout(jpContent, BoxLayout.Y_AXIS));
-	
 		JPanel jpDeviceName = new JPanel();
 		JLabel jlDeviceName = new JLabel("Device name");
 		jtfDeviceName = new JTextField();
@@ -147,9 +144,5 @@ public class DevicesView extends JFrame {
         } catch (final SecurityException e) {
             System.out.println("There was a security exception for: 'taskbar.setIconImage'");
         }
-    }
-
-    public static void main(String[] args) {    
-            SwingUtilities.invokeLater(() -> new DevicesView());
     }
 }
