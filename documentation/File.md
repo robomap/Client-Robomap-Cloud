@@ -25,4 +25,4 @@ Each file will contain one of the following contents based on the type of data:
     `DATA_SYSTEM_<>.`
 
 ## Example
-- [Click here](https://github.com/robomap/Client-Robomap-Cloud/blob/main/documentation/Files) to see an **example** of the files needed to exchange information through the file protocol. This example contains.
+- [Click here](https://github.com/robomap/Client-Robomap-Cloud/blob/main/documentation/File) to see an **example** of the files needed to exchange information through the file protocol. This example contains.
