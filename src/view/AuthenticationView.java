@@ -21,12 +21,12 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 
 import config.AppConfig;
 import controller.AuthenticationController;
 import service.ApiClient;
+import utils.RoundJPasswordField;
+import utils.RoundJTextField;
 
 public class AuthenticationView extends JFrame implements KeyListener {    
     private JPanel jpRegister;
@@ -42,8 +42,8 @@ public class AuthenticationView extends JFrame implements KeyListener {
     private JLabel jlLoginInformation;
     private JLabel jlIcon;
     private JLabel textRegistrat;
-    private JTextField jtfMail;
-    private JPasswordField jpfPasword;
+    private RoundJTextField jtfMail;
+    private RoundJPasswordField jpfPasword;
     private JButton buttonLogin;
     private JButton Registrar;
     private ImageIcon icon;
@@ -243,10 +243,9 @@ public class AuthenticationView extends JFrame implements KeyListener {
 		jlNameMail.setForeground(new Color(200,200,200));
 		jlNameMail.setFont(new Font("Century Gothic",0,12));
 		jpMail.add(jlNameMail);
-		jtfMail = new JTextField();
+		jtfMail = new RoundJTextField(15);
 		jtfMail.setFont(new Font("Century Gothic",0,11));
 		jtfMail.setPreferredSize(new Dimension((int)(220.0),(int)(25.0)));
-		
 		jpMail.setBackground(new Color(0,0,0));
 		jpMail.add(jtfMail);
 	}
@@ -258,7 +257,7 @@ public class AuthenticationView extends JFrame implements KeyListener {
 		nomcontrasenya.setFont(new Font("Century Gothic",0,12));
 		jpPassword.add(nomcontrasenya);
 		jpPassword.setBackground(new Color(0,0,0));
-		jpfPasword = new JPasswordField();
+		jpfPasword = new RoundJPasswordField(15);
 		jpfPasword.setFont(new Font("Century Gothic",0,11));
 		jpfPasword.setPreferredSize(new Dimension((int)(220.0),(int)(25.0)));
 		jpPassword.add(jpfPasword);

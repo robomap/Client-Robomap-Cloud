@@ -1,7 +1,6 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -17,23 +16,24 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
+
+import utils.RoundJTextField;
 
 public class DevicesView extends JFrame {    
     private JPanel jpRegister;
     private JLabel jlIcon;
     private JLabel jlTitle;
-    private JTextField jtfDeviceName;
+    private RoundJTextField jtfDeviceName;
     private JComboBox<String> jcbDeviceProtocol;
-    private JTextField jtfDeviceDescription;
-    private JTextField jtfDeviceLatitude;
-    private JTextField jtfDeviceLongitude;
+    private RoundJTextField jtfDeviceDescription;
+    private RoundJTextField jtfDeviceLatitude;
+    private RoundJTextField jtfDeviceLongitude;
     private JButton buttonLogin;
     private JButton Registrar;
 
     public DevicesView() {
         jpRegister = new JPanel(new BorderLayout());
-		jpRegister.setBackground(new Color(50,50,50));
+		//jpRegister.setBackground(new Color(50,50,50));
         addComponents();
         this.getContentPane().add(jpRegister);
         this.setSize(700, 500);
@@ -53,9 +53,9 @@ public class DevicesView extends JFrame {
 	}
 	
 	private void addLogoAndTitle() {
-		ImageIcon icon = new ImageIcon("/Users/eduard5524/Library/CloudStorage/OneDrive-Personal/Business/Robomap/Development/Client-Robomap-Cloud/assets/img/logo_white.png");
+		ImageIcon icon = new ImageIcon("/Users/eduard5524/Library/CloudStorage/OneDrive-Personal/Business/Robomap/Development/Client-Robomap-Cloud/assets/img/logo_black.png");
 		Image iconImage = icon.getImage();
-		iconImage = iconImage.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+		iconImage = iconImage.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
 		
 		jlIcon = new JLabel(new ImageIcon(iconImage));
 		jpRegister.add(jlIcon, BorderLayout.NORTH);
@@ -65,45 +65,53 @@ public class DevicesView extends JFrame {
 		jpRegister.add(jlTitle, BorderLayout.CENTER);
 	}
 
+	
 	private void addDeviceInputs() {
 		JPanel jpInputs = new JPanel(new BorderLayout());
 		JPanel jpContent = new JPanel();
 		jpContent.setLayout(new BoxLayout(jpContent, BoxLayout.Y_AXIS));
-		JPanel jpDeviceName = new JPanel();
+		
+		// Panel for device name
+		JPanel jpDeviceName = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JLabel jlDeviceName = new JLabel("Device name");
-		jtfDeviceName = new JTextField();
+		jtfDeviceName = new RoundJTextField(15);
 		jtfDeviceName.setPreferredSize(new Dimension(220, 25));
 		jpDeviceName.add(jlDeviceName);
 		jpDeviceName.add(jtfDeviceName);
 		jpContent.add(jpDeviceName);
-	
-		JPanel jpDeviceProtocol = new JPanel();
-		JLabel jlDeviceProtocol = new JLabel("Device protocol"); // Corrected variable declaration
+		
+		// Panel for device protocol
+		JPanel jpDeviceProtocol = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		JLabel jlDeviceProtocol = new JLabel("Device protocol");
 		jcbDeviceProtocol = new JComboBox<>(new String[]{"Protocol 1", "Protocol 2", "Protocol 3"});
 		jcbDeviceProtocol.setPreferredSize(new Dimension(220, 25));
 		jpDeviceProtocol.add(jlDeviceProtocol);
 		jpDeviceProtocol.add(jcbDeviceProtocol);
 		jpContent.add(jpDeviceProtocol);
-		JPanel jpDeviceDescription = new JPanel();
-		JLabel jlDeviceDescription = new JLabel("Device description"); 
-		jtfDeviceDescription = new JTextField();
+		
+		// Panel for device description
+		JPanel jpDeviceDescription = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		JLabel jlDeviceDescription = new JLabel("Device description");
+		jtfDeviceDescription = new RoundJTextField(15);
 		jtfDeviceDescription.setPreferredSize(new Dimension(220, 25));
 		jpDeviceDescription.add(jlDeviceDescription);
 		jpDeviceDescription.add(jtfDeviceDescription);
 		jpContent.add(jpDeviceDescription);
-		JPanel jpDeviceLatitudeLongitude = new JPanel();
-		jpDeviceLatitudeLongitude.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JLabel jlDeviceLatitude = new JLabel("Device latitude"); // Corrected variable declaration
-		jtfDeviceLatitude = new JTextField();
+		
+		// Panel for device latitude and longitude
+		JPanel jpDeviceLatitudeLongitude = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		JLabel jlDeviceLatitude = new JLabel("Device latitude");
+		jtfDeviceLatitude = new RoundJTextField(15);
 		jtfDeviceLatitude.setPreferredSize(new Dimension(100, 25));
-		JLabel jlDeviceLongitude = new JLabel("Device longitude"); 
-		jtfDeviceLongitude = new JTextField();
+		JLabel jlDeviceLongitude = new JLabel("Device longitude");
+		jtfDeviceLongitude = new RoundJTextField(15);
 		jtfDeviceLongitude.setPreferredSize(new Dimension(100, 25));
 		jpDeviceLatitudeLongitude.add(jlDeviceLatitude);
 		jpDeviceLatitudeLongitude.add(jtfDeviceLatitude);
 		jpDeviceLatitudeLongitude.add(jlDeviceLongitude);
 		jpDeviceLatitudeLongitude.add(jtfDeviceLongitude);
 		jpContent.add(jpDeviceLatitudeLongitude);
+		
 		jpInputs.add(jpContent, BorderLayout.CENTER);
 		jpRegister.add(jpInputs, BorderLayout.CENTER);
 	}
