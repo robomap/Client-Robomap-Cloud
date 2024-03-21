@@ -8,6 +8,7 @@ import java.awt.Image;
 import java.awt.Taskbar;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -46,6 +47,15 @@ public class DevicesView extends JFrame {
         setLogoTaskbar();
     }
 
+    private String formatCoordinates(double coordinate) {
+        DecimalFormat df = new DecimalFormat("##.###");
+        int degrees = (int) coordinate;
+        double minutes = Math.abs((coordinate - degrees) * 60);
+        int minutesInt = (int) minutes;
+        double seconds = (minutes - minutesInt) * 60;
+        return degrees + "° " + minutesInt + "' " + df.format(seconds) + "\"";
+    }
+
 	private void addComponents() {
 		addLogoAndTitle();
 		addDeviceInputs();
@@ -55,16 +65,19 @@ public class DevicesView extends JFrame {
 	private void addLogoAndTitle() {
 		ImageIcon icon = new ImageIcon("/Users/eduard5524/Library/CloudStorage/OneDrive-Personal/Business/Robomap/Development/Client-Robomap-Cloud/assets/img/logo_black.png");
 		Image iconImage = icon.getImage();
-		iconImage = iconImage.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-		
-		jlIcon = new JLabel(new ImageIcon(iconImage));
-		jpRegister.add(jlIcon, BorderLayout.NORTH);
+		iconImage = iconImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 	
-		jlTitle = new JLabel("Configuration of your first device");
-		jlTitle.setFont(new Font("Century Gothic", Font.BOLD, 14));
-		jpRegister.add(jlTitle, BorderLayout.CENTER);
+		jlIcon = new JLabel(new ImageIcon(iconImage));
+	
+		JLabel titleLabel = new JLabel("Configure your first device");
+		titleLabel.setFont(new Font("Century Gothic", Font.BOLD, 14));
+	
+		JPanel logoPanel = new JPanel(new BorderLayout());
+		logoPanel.add(jlIcon, BorderLayout.WEST);
+		logoPanel.add(titleLabel, BorderLayout.CENTER);
+	
+		jpRegister.add(logoPanel, BorderLayout.NORTH);
 	}
-
 	
 	private void addDeviceInputs() {
 		JPanel jpInputs = new JPanel(new BorderLayout());
@@ -83,7 +96,7 @@ public class DevicesView extends JFrame {
 		// Panel for device protocol
 		JPanel jpDeviceProtocol = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JLabel jlDeviceProtocol = new JLabel("Device protocol");
-		jcbDeviceProtocol = new JComboBox<>(new String[]{"Protocol 1", "Protocol 2", "Protocol 3"});
+		jcbDeviceProtocol = new JComboBox<>(new String[]{"File protocol", "API", "OPC-UA"});
 		jcbDeviceProtocol.setPreferredSize(new Dimension(220, 25));
 		jpDeviceProtocol.add(jlDeviceProtocol);
 		jpDeviceProtocol.add(jcbDeviceProtocol);
@@ -111,7 +124,9 @@ public class DevicesView extends JFrame {
 		jpDeviceLatitudeLongitude.add(jlDeviceLongitude);
 		jpDeviceLatitudeLongitude.add(jtfDeviceLongitude);
 		jpContent.add(jpDeviceLatitudeLongitude);
-		
+		jtfDeviceLatitude.setText(formatCoordinates(40.7128)); 
+        jtfDeviceLongitude.setText(formatCoordinates(-74.0060)); 
+
 		jpInputs.add(jpContent, BorderLayout.CENTER);
 		jpRegister.add(jpInputs, BorderLayout.CENTER);
 	}
