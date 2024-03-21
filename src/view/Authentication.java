@@ -28,7 +28,7 @@ import service.ApiClient;
 import utils.RoundJPasswordField;
 import utils.RoundJTextField;
 
-public class AuthenticationView extends JFrame implements KeyListener {    
+public class Authentication extends JFrame implements KeyListener {    
     private JPanel jpRegister;
     private JPanel jpContent;
     private JPanel jpPassword;
@@ -51,7 +51,7 @@ public class AuthenticationView extends JFrame implements KeyListener {
 	final Taskbar taskbar = Taskbar.getTaskbar();
 
 	@SuppressWarnings("serial")
-	public AuthenticationView() {
+	public Authentication() {
 		//AuthenticationController authenticationController = new AuthenticationController(this);
 
 		jpRegister = new JPanel (new GridLayout(2,1));
@@ -289,8 +289,8 @@ public class AuthenticationView extends JFrame implements KeyListener {
 	}
 	
 	private void loadDevicesView() {
-        DevicesView devicesView = new DevicesView();
-        devicesView.setVisible(true);
+        Devices devices = new Devices();
+        devices.setVisible(true);
 
         dispose();
     }

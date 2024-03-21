@@ -7,19 +7,19 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-public class MainView extends JFrame {
+public class Dashboard extends JFrame {
     private JPanel northPanel;
     private JPanel southPanel;
     private JPanel eastPanel;
     private JPanel westPanel;
     private JPanel centerPanel;
 
-    public MainView() {
+    public Dashboard() {
         initializeUI();
     }
 
     private void initializeUI() {
-        setTitle("MainView");
+        setTitle("Client Robomap Cloud - Dashboard");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 600);
         setLocationRelativeTo(null);
@@ -47,8 +47,8 @@ public class MainView extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            MainView mainView = new MainView();
-            mainView.setVisible(true);
+            Dashboard dashboard = new Dashboard();
+            dashboard.setVisible(true);
         });
     }
 }

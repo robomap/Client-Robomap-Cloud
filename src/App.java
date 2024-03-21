@@ -3,7 +3,7 @@ import java.io.IOException;
 
 import javax.swing.SwingUtilities;
 
-import view.AuthenticationView;
+import view.Authentication;
 
 public class App {
     public static void main(String[] args) throws Exception {
@@ -25,7 +25,7 @@ public class App {
 				}
 			}));
 	
-			SwingUtilities.invokeLater(() -> new AuthenticationView());
+			SwingUtilities.invokeLater(() -> new Authentication());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

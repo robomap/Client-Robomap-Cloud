@@ -3,12 +3,12 @@ package model;
 import javax.swing.SwingUtilities;
 
 import controller.LoginController;
-import view.DevicesView;
+import view.Devices;
 
 public class Principal {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		DevicesView loginView = new DevicesView();		
+		Devices loginView = new Devices();		
 		SwingUtilities.invokeLater(new Runnable() {	
 			public void run() {		
 				try{

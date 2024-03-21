@@ -5,13 +5,13 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import service.ApiClient;
-import view.DevicesView;
+import view.Devices;
 
 public class AuthenticationController implements ActionListener {
-    private DevicesView authenticationView;
+    private Devices authenticationView;
     private ApiClient apiClient;
 
-    public AuthenticationController(DevicesView authenticationView) {
+    public AuthenticationController(Devices authenticationView) {
         this.authenticationView = authenticationView;
         this.apiClient = new ApiClient();
         this.authenticationView.registreControladorLogin(this);
