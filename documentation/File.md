@@ -16,7 +16,7 @@ The filename structure for these files follows a specific convention based on th
 Each file will contain one of the following contents based on the type of data:
 
 - **Data Incidence.** This section will contain information related to system incidents.
-    `DATA_INCIDENCE_<ID>_<STATUS:1/2>_<SEVERITY:WARNING,ERROR,INFO>_<SEVERITY:WARNING,ERROR,INFO>_<AREA/MAQUINA>_<SUBMAQUINA>_<NAME>_<12-02-2024:23:09:22>;`
+    `DATA_INCIDENCE_<ID>_<STATUS:1/2>_<SEVERITY:WARNING,ERROR,INFO>_<AREA/MAQUINA>_<SUBMAQUINA>_<NAME>_<12-02-2024:23:09:22>;`
 - **Data Intralogistics Containers.** Containers: Data concerning intralogistics containers.
     `DATA_INTRALOGISTICS_<BARCODE>_<CHUTE>_<STATUS>_<12-02-2024:12:23:22>;`
 - **Data Frames.** This section will include various types of relevant operational data.

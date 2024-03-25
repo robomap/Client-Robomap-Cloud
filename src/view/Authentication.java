@@ -20,7 +20,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JToggleButton;
 
 import config.AppConfig;
 import controller.AuthenticationController;
@@ -47,19 +49,38 @@ public class Authentication extends JFrame implements KeyListener {
     private JButton buttonLogin;
     private JButton Registrar;
     private ImageIcon icon;
-	//private AuthenticationController authenticationController = new AuthenticationController(this);
-	final Taskbar taskbar = Taskbar.getTaskbar();
+	private JToggleButton rememberCredentialsToggle;
+	final Taskbar taskbar = Taskbar.getTaskbar();    
+	
+	private void setApplicationName(String name) {
+        if (System.getProperty("os.name").toLowerCase().contains("mac")) {
+            try {
+                Class<?> appClass = Class.forName("com.apple.eawt.Application");
+                Object application = appClass.getMethod("getApplication").invoke(null);
+                Object menuBar = appClass.getMethod("getMenuBar").invoke(application);
+                Class<?>[] menuItemClasses = { String.class, ActionListener.class };
+                appClass.getMethod("addAppMenuItem", menuItemClasses)
+                        .invoke(application, name, new AboutActionListener());
+            } catch (Exception e) {
+                System.err.println("Failed to set menu bar text: " + e);
+            }
+        }
+	}
+	    private static class AboutActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JOptionPane.showMessageDialog(null, "This is a simple authentication application.");
+        }
+    }
 
 	@SuppressWarnings("serial")
 	public Authentication() {
-		//AuthenticationController authenticationController = new AuthenticationController(this);
-
 		jpRegister = new JPanel (new GridLayout(2,1));
 		jpRegister.setBackground(new Color(0,0,0));
 		panelUP();
 		panelDown();
 		this.getContentPane().add(jpRegister);
-		this.setSize(400,600);
+		this.setSize(420,600);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
@@ -67,8 +88,9 @@ public class Authentication extends JFrame implements KeyListener {
 		this.setIconImage(icon.getImage());
 		this.setVisible(true);
 		this.addKeyListener(this); 
-		this.setFocusable(true); // Ensure JFrame is focusable
+		this.setFocusable(true); 
         this.requestFocusInWindow();
+		setApplicationName("Robomap");
 	}
 
 	@Override
@@ -77,19 +99,16 @@ public class Authentication extends JFrame implements KeyListener {
 		System.out.println(KeyEvent.VK_ENTER);
 
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            // Perform login action when Enter key is pressed
             String email = getUsername();
             String password = String.valueOf(jpfPasword.getPassword());
 
             ApiClient apiClient = new ApiClient();
 
-            // Call the login method
             try {
                 String response = apiClient.login(email, password);
                 System.out.println("Login Response: " + response);
 
                 if (response.contains("success")) {
-                    // Load device selector view
                     loadDevicesView();
                     System.out.println("Login button pressed.");
                 }
@@ -100,14 +119,10 @@ public class Authentication extends JFrame implements KeyListener {
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
-        // Not needed for this implementation
-    }
+    public void keyReleased(KeyEvent e) {    }
 
     @Override
-    public void keyTyped(KeyEvent e) {
-        // Not needed for this implementation
-    }
+    public void keyTyped(KeyEvent e) {    }
 
 	private void panelUP(){
 		icon = new ImageIcon("/Users/eduard5524/Library/CloudStorage/OneDrive-Personal/Business/Robomap/Development/Client-Robomap-Cloud/assets/img/logo_white.png");
@@ -136,9 +151,9 @@ public class Authentication extends JFrame implements KeyListener {
 		buttonLogin = new JButton("Login");
 		buttonLogin.setFont(new Font("Century Gothic",0,12));
 		buttonLogin.setBackground(new Color(0, 0, 0));
-		buttonLogin.setFocusPainted(false); // Disable focus painting
-		buttonLogin.setBorderPainted(true); // Disable border painting
-		buttonLogin.setOpaque(true); // Make the button opaque
+		buttonLogin.setFocusPainted(false); 
+		buttonLogin.setBorderPainted(true); 
+		buttonLogin.setOpaque(true); 
 		jpButtonLogin.setBackground(new Color(0,0,0));
 		jpButtonLogin.add(buttonLogin);
 		jpButtonLogin.add(new JLabel());
@@ -156,74 +171,109 @@ public class Authentication extends JFrame implements KeyListener {
 						
 						ApiClient apiClient = new ApiClient();
 
-						// Call the login method
 						try {
 							String response = apiClient.login(email, password);
 							System.out.println("Login Response: " + response);
 
 							if (response.contains("success")) {
-                                // Load device selector view
                                 loadDevicesView();
 								System.out.println("Login button pressed.");
                             }
 						} catch (IOException io_exception) {
 							io_exception.printStackTrace();
 						}
-
-						
+					
 						//authenticationController.actionPerformed(e); 
 						
 					}
 				}
 			});
-			// Set the login button as the default button
 			
 			this.getRootPane().setDefaultButton(buttonLogin);
 			
 		}
 	}
 	
-	private void panelDown(){
-		jpContent = new JPanel (new GridLayout(5,1));
-		mailInformation();
-		passwordInformation();
-		loginButton();
-		jpContent.add(jpMail);
-		jpContent.add(new JLabel());
-		jpContent.setBackground(new Color(0,0,0));
-		jpContent.add(jpPassword);
-		jpContent.add(new JLabel());
-		jpContent.add(jpButtonLogin);
-		jpInferior = new JPanel(new GridLayout(2,1));
-		jpInferior.add(jpContent);
-		jpButtons = new JPanel(new GridLayout(4,1)); 
-		jpButtons.add(new JLabel());
-		jlLoginInformation = new JLabel();
-		jpRegistered = new JPanel (new FlowLayout());	
-		Registrar = new JButton("Register");
-		Registrar.setFont(new Font("Century Gothic",0,12));
-		textRegistrat = new JLabel("You don't have an account? ");
-		textRegistrat.setForeground(new Color(200,200,200));
-		textRegistrat.setFont(new Font("Century Gothic",0,12));
-		jpRegistered.add(textRegistrat);
-		jpRegistered.add(Registrar);
-		jpRegistered.setBackground(new Color(0,0,0));
-		Registrar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                openWebPage(AppConfig.getRegisterUrl());
+private void panelDown() {
+    jpContent = new JPanel(new GridLayout(5, 1));
+    mailInformation();
+    passwordInformation();
+    loginButton();
+    jpContent.add(jpMail);
+    jpContent.add(new JLabel());
+    jpContent.setBackground(new Color(0, 0, 0));
+    jpContent.add(jpPassword);
+    jpContent.add(new JLabel());
+	
+	
+    rememberCredentialsToggle = new JToggleButton();
+    rememberCredentialsToggle.setPreferredSize(new Dimension(80, 30));
+    rememberCredentialsToggle.setFocusPainted(false);
+    rememberCredentialsToggle.setContentAreaFilled(false);
+    rememberCredentialsToggle.setBorderPainted(false);
+    rememberCredentialsToggle.setOpaque(false);
+    ImageIcon toggleButtonOffIcon = new ImageIcon("/Users/eduard5524/Library/CloudStorage/OneDrive-Personal/Business/Robomap/Development/Client-Robomap-Cloud/assets/img/toggle-button_off-state.png");
+    ImageIcon toggleButtonOnIcon = new ImageIcon("/Users/eduard5524/Library/CloudStorage/OneDrive-Personal/Business/Robomap/Development/Client-Robomap-Cloud/assets/img/toggle-button_on-state.png");
+    rememberCredentialsToggle.setIcon(toggleButtonOffIcon);
+    rememberCredentialsToggle.setSelectedIcon(toggleButtonOnIcon); // Set the selected icon
+
+    rememberCredentialsToggle.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (rememberCredentialsToggle.isSelected()) {
+                System.out.println("Remember credentials enabled.");
+            } else {
+                System.out.println("Remember credentials disabled.");
             }
-        });
+        }
+    });
 
-		jpButtons.add(jpRegistered);
-		jpButtons.add(new JLabel());
-		jpButtons.add(jlLoginInformation);
-		jpButtons.setBackground(new Color(0,0,0));
-		jpInferior.add(jpButtons);
-		jpInferior.setBackground(new Color(0,0,0));
-		jpRegister.add(jpInferior);
-	}
+    rememberCredentialsToggle.setBackground(Color.white);
+	JPanel jpLoginAndRemember = new JPanel(new FlowLayout());
+	JLabel textRemember = new JLabel("Stay signed in");
+	textRemember.setForeground(Color.white);
+	textRemember.setForeground(new Color(200, 200, 200));
+	textRemember.setFont(new Font("Century Gothic", 0, 12));
+	jpLoginAndRemember.add(textRemember);
+    jpLoginAndRemember.add(rememberCredentialsToggle); 
+	rememberCredentialsToggle.setBackground(Color.black);
+	jpLoginAndRemember.add(jpButtonLogin); // Add login button    
+	jpLoginAndRemember.setBackground(Color.BLACK);
+	jpContent.add(jpLoginAndRemember);
 
+    jpButtons = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Use FlowLayout with left alignment
+    jpButtons.add(new JLabel());
+    jlLoginInformation = new JLabel();
+    jpRegistered = new JPanel(new FlowLayout());
+    Registrar = new JButton("Register");
+    Registrar.setFont(new Font("Century Gothic", 0, 12));
+    textRegistrat = new JLabel("You don't have an account? ");
+    textRegistrat.setForeground(new Color(200, 200, 200));
+    textRegistrat.setFont(new Font("Century Gothic", 0, 12));
+    jpRegistered.add(textRegistrat);
+    jpRegistered.add(Registrar);
+    jpRegistered.setBackground(new Color(0, 0, 0));
+    Registrar.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            openWebPage(AppConfig.getRegisterUrl());
+        }
+    });
+
+    jpButtons.add(jpRegistered);
+    jpButtons.add(new JLabel());
+    jpButtons.add(jlLoginInformation);
+    jpButtons.setBackground(new Color(0, 0, 0));
+
+
+    jpInferior = new JPanel(new GridLayout(2, 1));
+    jpInferior.add(jpContent);
+
+    jpInferior.add(jpButtons);
+    jpInferior.setBackground(new Color(0, 0, 0));
+    jpRegister.add(jpInferior);
+}
+		
 	private void openWebPage(String url) {
         if (Desktop.isDesktopSupported()) {
             Desktop desktop = Desktop.getDesktop();

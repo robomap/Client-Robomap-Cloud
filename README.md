@@ -1,5 +1,5 @@
 # Client-Robomap-Cloud
-Client for the Robomap Cloud application.
+This is the readme for the **Client Robomap Cloud** application. This software contains the client application that runs on a remote machine in the customer side with, the objective of communicating the customer devices with ther **Robomap Cloud** platform.
 
 ## Getting Started
 Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code. The **Integration Robomap Cloud** project is basically built in **VS Code Java**.
@@ -12,7 +12,8 @@ Welcome to the VS Code Java world. Here is a guideline to help you get started t
 - Input the name of the project.
 
 ## Build 
-- Environtment: VS Code.
+In order to build the source code, you need to execute the main function of the `App.java` file located in the `src` directory.
+- Environtment: **VS Code**.
 - Plugins required: `Estension Pack for Java`. Plugin ID: `vscjava.vscode-java-pack`.
 
 ## Folder Structure

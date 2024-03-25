@@ -15,6 +15,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -80,7 +81,7 @@ public class Devices extends JFrame {
         jpRegister.add(logoPanel, BorderLayout.NORTH);
         jpRegister.add(Box.createRigidArea(new Dimension(0, 10)), BorderLayout.CENTER); // Adding space between title and device inputs
     }
-    
+
     private void addDeviceInputs() {
         JPanel jpInputs = new JPanel(new BorderLayout());
         JPanel jpContent = new JPanel();
@@ -140,6 +141,43 @@ public class Devices extends JFrame {
         jpContent.add(jpDeviceLatitudeLongitude);
         jtfDeviceLatitude.setText(formatCoordinates(40.7128)); 
         jtfDeviceLongitude.setText(formatCoordinates(-74.0060)); 
+
+        jpInputs.add(jpContent, BorderLayout.CENTER);
+        jpRegister.add(jpInputs, BorderLayout.CENTER);
+
+       
+        // Panel for file selection
+        JPanel jpFileSelection = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JButton jbSelectFile = new JButton("Select File");
+        jbSelectFile.setEnabled(false); // Initially disabled
+        jpFileSelection.add(jbSelectFile);
+        jpContent.add(jpFileSelection);
+
+        jcbDeviceProtocol.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (jcbDeviceProtocol.getSelectedItem().equals("File protocol")) {
+                    // If "File protocol" is selected, enable the button
+                    jbSelectFile.setEnabled(true);
+                } else {
+                    // If any other protocol is selected, disable the button
+                    jbSelectFile.setEnabled(false);
+                }
+            }
+        });
+
+        jbSelectFile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                int result = fileChooser.showOpenDialog(Devices.this);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    String selectedFilePath = fileChooser.getSelectedFile().getAbsolutePath();
+                    // Do something with the selected file path, for example:
+                    System.out.println("Selected file: " + selectedFilePath);
+                }
+            }
+        });
 
         jpInputs.add(jpContent, BorderLayout.CENTER);
         jpRegister.add(jpInputs, BorderLayout.CENTER);
